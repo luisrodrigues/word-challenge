@@ -2,6 +2,8 @@ package com.luiro.wordchallenge.controllers;
 
 import com.luiro.wordchallenge.domain.RelationshipType;
 import com.luiro.wordchallenge.domain.WordRelationship;
+import com.luiro.wordchallenge.domain.exceptions.InvalidCharactersException;
+import com.luiro.wordchallenge.domain.exceptions.InvalidRelationshipException;
 import com.luiro.wordchallenge.services.WordsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class WordsController {
     @PostMapping("/relationships")
     public ResponseEntity<Object> createRelationship(@RequestParam String w1,
                                                      @RequestParam String w2,
-                                                     @RequestParam String r) {
+                                                     @RequestParam String r) throws InvalidCharactersException, InvalidRelationshipException {
         if (w1.isEmpty() || w2.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }

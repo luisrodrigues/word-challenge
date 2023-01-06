@@ -3,6 +3,8 @@ package com.luiro.wordchallenge.services;
 import com.luiro.wordchallenge.domain.RelationshipType;
 import com.luiro.wordchallenge.domain.Word;
 import com.luiro.wordchallenge.domain.WordRelationship;
+import com.luiro.wordchallenge.domain.exceptions.InvalidCharactersException;
+import com.luiro.wordchallenge.domain.exceptions.InvalidRelationshipException;
 import com.luiro.wordchallenge.repositories.WordRelationshipRepository;
 import com.luiro.wordchallenge.repositories.WordRepository;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.util.List;
 @Service
 public class WordsService {
 
+    public static final String WORD_REGEX = "[a-zA-Z ]*";
+
     private final WordRepository wordRepository;
     private final WordRelationshipRepository wordRelationshipRepository;
 
@@ -20,18 +24,26 @@ public class WordsService {
         this.wordRelationshipRepository = wordRelationshipRepository;
     }
 
-    public void createRelationship(String word1, String word2, RelationshipType relationshipType) {
+    public void createRelationship(String word1, String word2, RelationshipType relationshipType) throws InvalidCharactersException, InvalidRelationshipException {
+        if(!word1.matches(WORD_REGEX) || !word2.matches(WORD_REGEX)) {
+            throw new InvalidCharactersException();
+        }
+
+        if(wordRelationshipRepository.findByWordAndRelatedWord(word1, word2) != null || wordRelationshipRepository.findByWordAndRelatedWord(word2, word1) != null ) {
+            throw new InvalidRelationshipException();
+        }
+
         Word w1 = wordRepository.findByName(word1);
         if (w1 == null) {
             w1 = new Word();
-            w1.setName(word1);
+            w1.setName(word1.toLowerCase().trim());
             wordRepository.save(w1);
         }
 
         Word w2 = wordRepository.findByName(word2);
         if (w2 == null) {
             w2 = new Word();
-            w2.setName(word2);
+            w2.setName(word2.toLowerCase().trim());
             wordRepository.save(w2);
         }
 

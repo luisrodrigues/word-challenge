@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface WordRelationshipRepository extends JpaRepository<WordRelationship, Long> {
     List<WordRelationship> findAllByRelationshipType(RelationshipType type);
+
+    WordRelationship findByWordAndRelatedWord(String word, String relatedWord);
 }
