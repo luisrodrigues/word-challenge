@@ -7,6 +7,8 @@ import com.luiro.wordchallenge.repositories.WordRelationshipRepository;
 import com.luiro.wordchallenge.repositories.WordRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WordsService {
 
@@ -40,4 +42,7 @@ public class WordsService {
         wordRelationshipRepository.save(relationship);
     }
 
+    public List<WordRelationship> getAllWordRelationships() {
+        return wordRelationshipRepository.findAll();
+    }
 }

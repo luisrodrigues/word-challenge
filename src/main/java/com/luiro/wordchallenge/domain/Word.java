@@ -1,5 +1,7 @@
 package com.luiro.wordchallenge.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -9,11 +11,13 @@ import java.util.Objects;
 public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     private String name;
 
     @OneToMany(mappedBy = "word")
+    @JsonIgnore
     private List<WordRelationship> relationships;
 
     public Long getId() {

@@ -1,12 +1,13 @@
 package com.luiro.wordchallenge.controllers;
 
 import com.luiro.wordchallenge.domain.RelationshipType;
+import com.luiro.wordchallenge.domain.WordRelationship;
 import com.luiro.wordchallenge.services.WordsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/words")
@@ -19,14 +20,23 @@ public class WordsController {
     }
 
     @PostMapping("/relationships")
-    public ResponseEntity<Object> createRelationship(@RequestParam String word1,
-                                                     @RequestParam String word2,
-                                                     @RequestParam RelationshipType relationshipType) {
-        if (word1.isEmpty() || word2.isEmpty()) {
+    public ResponseEntity<Object> createRelationship(@RequestParam String w1,
+                                                     @RequestParam String w2,
+                                                     @RequestParam String r) {
+        if (w1.isEmpty() || w2.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        wordsService.createRelationship(word1, word2, relationshipType);
+        wordsService.createRelationship(w1, w2, RelationshipType.valueOf(r));
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/relationships")
+    public ResponseEntity<List<WordRelationship>> getAllWordRelationships() {
+        List<WordRelationship> wordRelationships = wordsService.getAllWordRelationships();
+        if (wordRelationships.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(wordRelationships, HttpStatus.OK);
     }
 }
