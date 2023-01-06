@@ -41,13 +41,13 @@ public class WordsService {
             w2.setName(word2.toLowerCase().trim());
         }
 
+        wordRepository.save(w1);
+        wordRepository.save(w2);
+
         if(wordRelationshipRepository.findByWordAndRelatedWord(w1, w2) != null
                 || wordRelationshipRepository.findByWordAndRelatedWord(w2, w1) != null ) {
             throw new InvalidRelationshipException();
         }
-
-        wordRepository.save(w1);
-        wordRepository.save(w2);
 
         WordRelationship relationship = new WordRelationship();
         relationship.setWord(w1);
