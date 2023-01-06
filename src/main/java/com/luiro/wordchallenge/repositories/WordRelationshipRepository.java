@@ -1,6 +1,7 @@
 package com.luiro.wordchallenge.repositories;
 
 import com.luiro.wordchallenge.domain.RelationshipType;
+import com.luiro.wordchallenge.domain.Word;
 import com.luiro.wordchallenge.domain.WordRelationship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,5 @@ import java.util.List;
 public interface WordRelationshipRepository extends JpaRepository<WordRelationship, Long> {
     List<WordRelationship> findAllByRelationshipType(RelationshipType type);
 
-    WordRelationship findByWordAndRelatedWord(String word, String relatedWord);
+    WordRelationship findByWordAndRelatedWord(Word word, Word relatedWord);
 }

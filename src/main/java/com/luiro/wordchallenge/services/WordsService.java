@@ -29,23 +29,25 @@ public class WordsService {
             throw new InvalidCharactersException();
         }
 
-        if(wordRelationshipRepository.findByWordAndRelatedWord(word1, word2) != null || wordRelationshipRepository.findByWordAndRelatedWord(word2, word1) != null ) {
-            throw new InvalidRelationshipException();
-        }
-
         Word w1 = wordRepository.findByName(word1);
         if (w1 == null) {
             w1 = new Word();
             w1.setName(word1.toLowerCase().trim());
-            wordRepository.save(w1);
         }
 
         Word w2 = wordRepository.findByName(word2);
         if (w2 == null) {
             w2 = new Word();
             w2.setName(word2.toLowerCase().trim());
-            wordRepository.save(w2);
         }
+
+        if(wordRelationshipRepository.findByWordAndRelatedWord(w1, w2) != null
+                || wordRelationshipRepository.findByWordAndRelatedWord(w2, w1) != null ) {
+            throw new InvalidRelationshipException();
+        }
+
+        wordRepository.save(w1);
+        wordRepository.save(w2);
 
         WordRelationship relationship = new WordRelationship();
         relationship.setWord(w1);

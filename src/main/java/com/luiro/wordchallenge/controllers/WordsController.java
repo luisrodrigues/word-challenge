@@ -1,5 +1,6 @@
 package com.luiro.wordchallenge.controllers;
 
+import com.luiro.wordchallenge.controllers.dto.WordRelationshipDTO;
 import com.luiro.wordchallenge.domain.RelationshipType;
 import com.luiro.wordchallenge.domain.WordRelationship;
 import com.luiro.wordchallenge.domain.exceptions.InvalidCharactersException;
@@ -21,16 +22,13 @@ public class WordsController {
         this.wordsService = wordsService;
     }
 
-    // Request params here should be an object passed to the body instead
     @PostMapping("/relationships")
-    public ResponseEntity<Object> createRelationship(@RequestParam String w1,
-                                                     @RequestParam String w2,
-                                                     @RequestParam String r) throws InvalidCharactersException, InvalidRelationshipException {
-        if (w1.isEmpty() || w2.isEmpty()) {
+    public ResponseEntity<Object> createRelationship(@RequestBody WordRelationshipDTO wordRelationshipDTO) throws InvalidCharactersException, InvalidRelationshipException {
+        if (wordRelationshipDTO.getWordOne().isEmpty() || wordRelationshipDTO.getWordTwo().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        wordsService.createRelationship(w1, w2, RelationshipType.valueOf(r));
+        wordsService.createRelationship(wordRelationshipDTO.getWordOne(), wordRelationshipDTO.getWordTwo(), RelationshipType.valueOf(wordRelationshipDTO.getRelationshipType()));
         return ResponseEntity.ok().build();
     }
 
