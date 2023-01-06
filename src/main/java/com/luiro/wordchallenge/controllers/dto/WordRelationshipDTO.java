@@ -1,25 +1,30 @@
 package com.luiro.wordchallenge.controllers.dto;
 
+import com.luiro.wordchallenge.domain.WordRelationship;
+
 public class WordRelationshipDTO {
-    private String wordOne;
-    private String wordTwo;
-    private String relationshipType;
 
-    public WordRelationshipDTO(String wordOne, String wordTwo, String relationshipType) {
-        this.wordOne = wordOne;
-        this.wordTwo = wordTwo;
-        this.relationshipType = relationshipType;
+    private WordRelationship wordRelationship;
+    private boolean isInverse;
+
+    public WordRelationshipDTO(WordRelationship wordRelationship, boolean isInverse) {
+        this.wordRelationship = wordRelationship;
+        this.isInverse = isInverse;
     }
 
-    public String getWordOne() {
-        return wordOne;
+    public WordRelationship getWordRelationship() {
+        return wordRelationship;
     }
 
-    public String getWordTwo() {
-        return wordTwo;
+    public void setWordRelationship(WordRelationship wordRelationship) {
+        this.wordRelationship = wordRelationship;
     }
 
-    public String getRelationshipType() {
-        return relationshipType;
+    public boolean isInverse() {
+        return isInverse;
+    }
+
+    public void setInverse(boolean inverse) {
+        isInverse = inverse;
     }
 }
