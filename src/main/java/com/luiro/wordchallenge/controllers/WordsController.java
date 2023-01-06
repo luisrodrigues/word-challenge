@@ -19,6 +19,7 @@ public class WordsController {
         this.wordsService = wordsService;
     }
 
+    // Request params here should be an object passed to the body instead
     @PostMapping("/relationships")
     public ResponseEntity<Object> createRelationship(@RequestParam String w1,
                                                      @RequestParam String w2,
@@ -32,8 +33,8 @@ public class WordsController {
     }
 
     @GetMapping("/relationships")
-    public ResponseEntity<List<WordRelationship>> getAllWordRelationships() {
-        List<WordRelationship> wordRelationships = wordsService.getAllWordRelationships();
+    public ResponseEntity<List<WordRelationship>> getAllWordRelationships(@RequestParam String r) {
+        List<WordRelationship> wordRelationships = wordsService.getAllWordRelationships(r);
         if (wordRelationships.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

@@ -45,4 +45,11 @@ public class WordsService {
     public List<WordRelationship> getAllWordRelationships() {
         return wordRelationshipRepository.findAll();
     }
+
+    public List<WordRelationship> getAllWordRelationships(String relationshipType) {
+        if (relationshipType.isEmpty()) {
+            return getAllWordRelationships();
+        }
+        return wordRelationshipRepository.findAllByRelationshipType(RelationshipType.valueOf(relationshipType));
+    }
 }
